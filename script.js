@@ -1,55 +1,79 @@
-// Assignment code here
-/*
-prompt to ask the user the length of the password (8 to 128), loop characters until it reaches the specified number. math.random pulls from array of the confirms
-save that, in variable most likely, with each of the confirm values being keys in a variable?
-confirm for all the other promps, upercase and/or lower, special characters, numbers. 
-take all that criteria and generate a password
-*/
-
-// parseFloat and parseInteger
 function generatePassword() {
-  var charLength = prompt(
+  var confirmCharacterlength = prompt(
     "How many characters would you like your password to contain?"
   );
-  console.log(charLength);
-  var charLengthN = Number(charLength);
+  if (!confirmCharacterlength) {
+    alert("Have a nice day!");
+    return "Click below to begin generating your password!";
+  }
 
-  if (isNaN(charLengthN)) {
+  var characterLength = Number(confirmCharacterlength);
+
+  if (isNaN(characterLength)) {
     alert("Please choose a valid number.");
     return "Try again!";
   }
-  if (charLengthN < 8 || charLengthN > 128) {
+  if (characterLength < 8 || characterLength > 128) {
     alert("Please choose a character amount between 8 and 128.");
     return "Try again!";
   }
-  for (var i = 0; i < charLength; i++) {
-    console.log(charLength);
-  }
-  var specChar = confirm(
+
+  var confirmSpecial = confirm(
     "Click OK to confirm including special characters in your password."
   );
-  console.log(specChar);
-  var smallCase = confirm(
+
+  var confirmLowercase = confirm(
     "Click OK to confirm including lowercase characters in your password."
   );
-  console.log(smallCase);
-  var bigCase = confirm(
+
+  var confirmUppercase = confirm(
     "Click OK to confirm including uppercase characters in your password."
   );
-  console.log(bigCase);
-  var numChar = confirm(
+
+  var confirmNumeric = confirm(
     "Click OK to confirm including numeric characters in your password."
   );
-  console.log(numChar);
-}
 
-// } else {
-//   return charLength;
-// }
-// if (!charLength) {
-//   alert("Have a nice day!");
-//   return;
-// }
+  if (
+    !confirmSpecial &&
+    !confirmLowercase &&
+    !confirmUppercase &&
+    !confirmNumeric
+  ) {
+    alert("Please choose at least one type of character.");
+    return "Try again!";
+  }
+
+  var password = "";
+  var uppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  var lowercaseCharacters = "abcdefghijklmnopqrstuvwxyz".split("");
+  var specialCharacters = "!@#$%^&*()_+-=".split("");
+  var numericCharacters = "0123456789".split("");
+  const options = [];
+  if (confirmSpecial) {
+    options.push(specialCharacters);
+  }
+  if (confirmLowercase) {
+    options.push(lowercaseCharacters);
+  }
+  if (confirmUppercase) {
+    options.push(uppercaseCharacters);
+  }
+  if (confirmNumeric) {
+    options.push(numericCharacters);
+  }
+  for (let index = 0; index < characterLength; index++) {
+    var optionsIndex = Math.floor(Math.random() * options.length);
+    console.log("random option: ", optionsIndex);
+    var characterIndex = Math.floor(
+      Math.random() * options[optionsIndex].length
+    );
+
+    password = password.concat(options[optionsIndex][characterIndex]);
+  }
+
+  return password;
+}
 
 // Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
